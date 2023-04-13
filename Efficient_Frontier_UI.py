@@ -30,11 +30,11 @@ for index, row in df.iterrows():
 stockCodeArray = [str(value) for value in first_column_values]
 # stockCodeArray2 = [str(value).split()[0] for value in first_column_values]
 
+
 def Efficient_Frontier(stock_code, start_year_downInput, start_month_downInput, start_day_downInput, end_year_downInput,
                        end_month_downInput, end_day_downInput, key, text_1, text_2, text_3, text_4, text_5, text_6):
     def port_ret(weights):
         return np.sum(avg_daily_return * weights) * 252
-
 
     def port_vol(weights):
         return np.sqrt(np.dot(weights.T, np.dot(daily_returns.cov() * 252, weights)))
@@ -51,14 +51,11 @@ def Efficient_Frontier(stock_code, start_year_downInput, start_month_downInput, 
         return "請選擇結束時間"
     stockCodeArray_split = [str(value).split()[0] for value in stock_code]
 
-
     wt = [text_1, text_2, text_3, text_4, text_5, text_6]
     tickers = stockCodeArray_split
     if len(stockCodeArray_split) < len(wt):
         wt = wt[:len(stockCodeArray_split)]
     print(wt)
-    
-
 
     start_date = startday
     end_date = endday
@@ -108,19 +105,24 @@ def Efficient_Frontier(stock_code, start_year_downInput, start_month_downInput, 
     elif key == "plotWithX":
         if round(sum(wt), 2) != 1:
 
-
             return "請確認權重是否正確"
         print(round(sum(wt), 2))
         plt.figure(figsize=(10, 6))
         plt.scatter(pvols, prets, c=prets / pvols,
                     marker='o', cmap='coolwarm')
-        plt.scatter(port_vol(np.array(wt)), port_ret(np.array(wt)), c='green',
-                    marker='x', cmap='coolwarm')
+        plt.scatter(port_vol(np.array(wt)), port_ret(np.array(wt)),
+                    marker='x',color='green')
         plt.xlabel('expected volatility')
         plt.ylabel('expected return')
         plt.colorbar(label='Sharpe ratio')
+        plt.set_cmap('coolwarm') # set color map to coolwarm
+
+
         plt.show()
+
+
         return "這是加權重的圖"
+
 
 with gr.Blocks(css="#testpls { width : 100% ; height : 67px ;  } #testpls2 {margin-top : 10px ; width : 100% ; height : 67px } ") as demo:
     with gr.Box():
@@ -139,7 +141,7 @@ with gr.Blocks(css="#testpls { width : 100% ; height : 67px ;  } #testpls2 {marg
         with gr.Box():
             with gr.Row():
                 gr.Markdown(
-                    value="請選擇您的權重(要依照下拉選單選擇的順序，權重加起來要等於1) 選擇的權重範例 : 0.1 ", label="")
+                    value="請選擇您的權重(要依照下拉選單選擇的順序，選擇五個代號 就只能調整前五個權重拉條 ，權重加起來要等於1) 選擇的權重範例 : 0.1 ", label="")
             with gr.Row():
                 text_1 = gr.Slider(0, 1, step=0.1, label="代號1權重", value=0)
                 text_2 = gr.Slider(0, 1, step=0.1, label="代號2權重", value=0)
