@@ -111,20 +111,18 @@ def Efficient_Frontier(stock_code, start_year_downInput, start_month_downInput, 
         plt.scatter(pvols, prets, c=prets / pvols,
                     marker='o', cmap='coolwarm')
         plt.scatter(port_vol(np.array(wt)), port_ret(np.array(wt)),
-                    marker='x',color='green')
+                    marker='x', color='green')
         plt.xlabel('expected volatility')
         plt.ylabel('expected return')
         plt.colorbar(label='Sharpe ratio')
-        plt.set_cmap('coolwarm') # set color map to coolwarm
-
+        plt.set_cmap('coolwarm')  # set color map to coolwarm
 
         plt.show()
-
 
         return "這是加權重的圖"
 
 
-with gr.Blocks(css="#testpls { width : 100% ; height : 67px ;  } #testpls2 {margin-top : 10px ; width : 100% ; height : 67px } ") as demo:
+with gr.Blocks(css="#stock_code { border : 1px black solid ;  } #start_year_downInput { border : 1px black solid ;  } #start_month_downInput { border : 1px black solid ;  } #start_day_downInput { border : 1px black solid ;  } #end_year_downInput { border : 1px black solid ;  } #end_month_downInput { border : 1px black solid ;  } #end_day_downInput { border : 1px black solid ;  } ") as demo:
     with gr.Box():
         with gr.Row():
             gr.HighlightedText(value="第七週 效率前緣 作業範例",
@@ -137,42 +135,48 @@ with gr.Blocks(css="#testpls { width : 100% ; height : 67px ;  } #testpls2 {marg
         with gr.Row():
             with gr.Column():
                 stock_code = gr.Dropdown(
-                    stockCodeArray, label="選擇代號，最多六個(有點卡 等他一下)", multiselect=True, max_choices=6)
+                    stockCodeArray, elem_id="stock_code", label="選擇代號，最多六個(有點卡 等他一下)", multiselect=True, max_choices=6)
         with gr.Box():
             with gr.Row():
                 gr.Markdown(
                     value="請選擇您的權重(要依照下拉選單選擇的順序，選擇五個代號 就只能調整前五個權重拉條 ，權重加起來要等於1) 選擇的權重範例 : 0.1 ", label="")
             with gr.Row():
-                text_1 = gr.Slider(0, 1, step=0.1, label="代號1權重", value=0)
-                text_2 = gr.Slider(0, 1, step=0.1, label="代號2權重", value=0)
-                text_3 = gr.Slider(0, 1, step=0.1, label="代號3權重", value=0)
-                text_4 = gr.Slider(0, 1, step=0.1, label="代號4權重", value=0)
-                text_5 = gr.Slider(0, 1, step=0.1, label="代號5權重", value=0)
-                text_6 = gr.Slider(0, 1, step=0.1, label="代號6權重", value=0)
+                text_1 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_1", label="代號1權重", value=0)
+                text_2 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_2", label="代號2權重", value=0)
+                text_3 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_3", label="代號3權重", value=0)
+                text_4 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_4", label="代號4權重", value=0)
+                text_5 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_5", label="代號5權重", value=0)
+                text_6 = gr.Slider(
+                    0, 1, step=0.1, elem_id="text_6", label="代號6權重", value=0)
 
         with gr.Row():
             with gr.Accordion("選擇起始時間"):
                 with gr.Row():
                     start_year_downOptions = year
-                    start_year_downInput = gr.inputs.Dropdown(
-                        start_year_downOptions, label="年")
+                    start_year_downInput = gr.Dropdown(
+                        start_year_downOptions, elem_id="start_year_downInput", label="年")
                     start_month_downOptions = month
-                    start_month_downInput = gr.inputs.Dropdown(
-                        start_month_downOptions, label="月")
+                    start_month_downInput = gr.Dropdown(
+                        start_month_downOptions, elem_id="start_month_downInput", label="月")
                     start_day_downOptions = day
-                    start_day_downInput = gr.inputs.Dropdown(
-                        start_day_downOptions, label="日")
+                    start_day_downInput = gr.Dropdown(
+                        start_day_downOptions, elem_id="start_day_downInput", label="日")
             with gr.Accordion("選擇結束時間"):
                 with gr.Row():
                     end_year_downOptions = year
-                    end_year_downInput = gr.inputs.Dropdown(
-                        end_year_downOptions, label="年")
+                    end_year_downInput = gr.Dropdown(
+                        end_year_downOptions, elem_id="end_year_downInput", label="年")
                     end_month_downOptions = month
-                    end_month_downInput = gr.inputs.Dropdown(
-                        end_month_downOptions, label="月")
+                    end_month_downInput = gr.Dropdown(
+                        end_month_downOptions, elem_id="end_month_downInput", label="月")
                     end_day_downOptions = day
-                    end_day_downInput = gr.inputs.Dropdown(
-                        end_day_downOptions, label="日")
+                    end_day_downInput = gr.Dropdown(
+                        end_day_downOptions, elem_id="end_day_downInput", label="日")
 
         with gr.Box():
             with gr.Row():
@@ -180,14 +184,14 @@ with gr.Blocks(css="#testpls { width : 100% ; height : 67px ;  } #testpls2 {marg
                     value="選擇完股票代號，起始時間以及結束時間後即可按下按鈕1，選擇完權重後才能按下按鈕2", label="")
             with gr.Row():
                 with gr.Column():
-                    btn1 = gr.Button(value="按鈕1 : 效率前緣圖")
+                    btn1 = gr.Button(value="按鈕1 : 效率前緣圖", elem_id="btn1")
                 with gr.Column():
-                    btn2 = gr.Button(value="按鈕2 : 加上你的權重")
+                    btn2 = gr.Button(value="按鈕2 : 加上你的權重", elem_id="btn2")
         with gr.Box():
             with gr.Row():
                 with gr.Column():
                     text_output = gr.Textbox(
-                        lines=5, label="輸出", placeholder="系統輸出區域")
+                        lines=5, label="輸出", elem_id="text_output", placeholder="系統輸出區域")
     btn1.click(Efficient_Frontier, inputs=[
         stock_code, start_year_downInput, start_month_downInput, start_day_downInput, end_year_downInput, end_month_downInput, end_day_downInput, key1, text_1, text_2, text_3, text_4, text_5, text_6], outputs=[text_output])
     btn2.click(Efficient_Frontier, inputs=[stock_code, start_year_downInput, start_month_downInput, start_day_downInput, end_year_downInput,
